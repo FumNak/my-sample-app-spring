@@ -13,7 +13,6 @@ on:
         required: true
         default: true
         description: "Check to run tests only"
-  push:
 
 jobs:
   # build-testジョブは常に実行される
