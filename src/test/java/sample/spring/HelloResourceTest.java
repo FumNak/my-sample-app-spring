@@ -30,7 +30,7 @@ class HelloResourceTest {
 
         @Test
         void tesHello() {
-            var expected = "HelloSpring";
+            var expected = "HelloSpring\\n";
             var actual = helloResource.hello();
             assertThat(actual).isEqualTo(expected);
         }
