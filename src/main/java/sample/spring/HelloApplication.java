@@ -6,12 +6,17 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.context.annotation.Bean;
 
 import ch.qos.logback.access.tomcat.LogbackValve;
+import jakarta.servlet.http.Cookie;
 
 @SpringBootApplication
 public class HelloApplication {
 
     public static void main(String[] args) {
         String empty = new String();
+
+        Cookie c = new Cookie("COOKIENAME", "sensitivedata");
+        c.setSecure(false);
+
         SpringApplication.run(HelloApplication.class, args);
     }
 
