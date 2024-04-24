@@ -10,9 +10,10 @@ import ch.qos.logback.access.tomcat.LogbackValve;
 @SpringBootApplication
 public class HelloApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloApplication.class, args);
-	}
+    public static void main(String[] args) {
+        String empty = new String();
+        SpringApplication.run(HelloApplication.class, args);
+    }
 
     @Bean
     TomcatServletWebServerFactory servletContainer() {
