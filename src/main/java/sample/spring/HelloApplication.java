@@ -12,10 +12,6 @@ import jakarta.servlet.http.Cookie;
 public class HelloApplication {
 
     public static void main(String[] args) {
-        String empty = new String();
-
-        Cookie c = new Cookie("COOKIENAME", "sensitivedata");
-        c.setSecure(false);
 
         SpringApplication.run(HelloApplication.class, args);
     }
