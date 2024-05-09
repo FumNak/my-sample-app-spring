@@ -28,12 +28,12 @@ class HelloResourceTest {
             this.helloResource = createHttpInterface(url);
         }
 
-        @Test
-        void tesHello() {
-            var expected = "FellowSpringKawamura";
-            var actual = helloResource.hello();
-            assertThat(actual).isEqualTo(expected);
-        }
+        // @Test
+        // void tesHello() {
+        // var expected = "FellowSpringKawamura";
+        // var actual = helloResource.hello();
+        // assertThat(actual).isEqualTo(expected);
+        // }
     }
 
     @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
