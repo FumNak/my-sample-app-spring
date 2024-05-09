@@ -21,7 +21,7 @@ public class HelloResource {
     @GetMapping("/hello")
     public String hello() {
         person.setName("MyName");
-        person.setAge(35);
+        person.setAge(37);
 
         return "Hello! name:" + person.getName() + "age:" + person.getAge();
     }
