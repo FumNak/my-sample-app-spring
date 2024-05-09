@@ -6,7 +6,6 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.context.annotation.Bean;
 
 import ch.qos.logback.access.tomcat.LogbackValve;
-import jakarta.servlet.http.Cookie;
 
 @SpringBootApplication
 public class HelloApplication {
