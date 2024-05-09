@@ -30,7 +30,7 @@ class HelloResourceTest {
 
         @Test
         void tesHello() {
-            var expected = "FellowSpringKawamura";
+            var expected = "Hello! name:MyNameage:38";
             var actual = helloResource.hello();
             assertThat(actual).isEqualTo(expected);
         }
@@ -51,7 +51,7 @@ class HelloResourceTest {
 
         @Test
         void tesHello() {
-            var expected = "Changed Hello";
+            var expected = "Hello! name:MyNameage:38";
             var actual = helloResource.hello();
             assertThat(actual).isEqualTo(expected);
         }

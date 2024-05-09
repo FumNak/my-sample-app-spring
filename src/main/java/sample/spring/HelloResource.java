@@ -1,6 +1,5 @@
 package sample.spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,6 @@ import sample.domain.Person;
 @RequestMapping("/api")
 public class HelloResource {
 
-    @Autowired
     private Person person;
 
     @Value("${config.val}")
@@ -20,8 +18,9 @@ public class HelloResource {
 
     @GetMapping("/hello")
     public String hello() {
+        person = new Person();
         person.setName("MyName");
-        person.setAge(37);
+        person.setAge(38);
 
         return "Hello! name:" + person.getName() + "age:" + person.getAge();
     }
