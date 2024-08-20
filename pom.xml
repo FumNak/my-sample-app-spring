@@ -19,26 +19,135 @@
 	<properties>
 		<!-- environment settings -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
 		<!-- docker plugin settings -->
 		<image.tag>latest</image.tag>
+
+		<plugin.maven-jacoco.version>0.8.12</plugin.maven-jacoco.version>
+
+		<!-- SonarQube setting start -->
+		<sonar.projectName>sample-spring</sonar.projectName>
+		<sonar.projectKey>sample-spring</sonar.projectKey>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.login>admin</sonar.login>
+		<sonar.password>admin1</sonar.password>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			 <groupId>org.springframework.boot</groupId>
+			 <artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-access</artifactId>
+			 <groupId>ch.qos.logback</groupId>
+			 <artifactId>logback-access</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			 <groupId>org.springframework.boot</groupId>
+			 <artifactId>spring-boot-starter-test</artifactId>
+			 <scope>test</scope>
 		</dependency>
+
+    <!-- Opentelemetry -->
+        <dependency>
+             <groupId>io.opentelemetry.javaagent</groupId>
+             <artifactId>opentelemetry-javaagent</artifactId>
+             <version>1.33.5</version>
+        </dependency>
+		<!-- <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-exporter-jaeger</artifactId>
+             <version>1.33.0</version>
+        </dependency> -->
+       
+        <dependency>
+             <groupId>io.opentelemetry.instrumentation</groupId>
+             <artifactId>opentelemetry-spring-boot-starter</artifactId>
+		     <version>2.6.0</version>
+        </dependency>
+
+ <!-- springBootのスターター以外に必要なもの-->
+        <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-sdk-extension-autoconfigure</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+        <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-sdk-extension-autoconfigure-spi</artifactId>
+             <version>1.40.0</version>
+        </dependency>   
+
+<!--	    <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-sdk</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+		<dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-sdk-logs</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+        <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-sdk-trace</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+        <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-sdk-common</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+        <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-api</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+		<dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-api-logs</artifactId>
+             <version>1.26.0-alpha</version>
+        </dependency>
+		<dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-exporter-otlp</artifactId>
+             <version>1.40.0</version>
+        </dependency>
+		<dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-exporter-otlp-trace</artifactId>
+             <version>1.13.0</version>
+        </dependency>		 
+        <dependency>
+             <groupId>io.opentelemetry</groupId>
+             <artifactId>opentelemetry-exporter-otlp-common</artifactId>
+             <version>1.40.0</version>
+             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+             <groupId>io.opentelemetry.instrumentation</groupId>
+             <artifactId>opentelemetry-instrumentation-bom</artifactId>
+             <version>2.6.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+-->
+
+        <!--prometheus-->
+        <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+             <groupId>io.micrometer</groupId>
+             <artifactId>micrometer-registry-prometheus</artifactId>
+			 <version>1.12.8</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>
@@ -69,6 +178,57 @@
 					</images>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${plugin.maven-jacoco.version}</version>
+			<executions>		
+				<execution>
+					<id>prepare-agent</id>
+					<goals>
+					   <goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>post-unit-test</id>
+					<phase>test</phase>
+					<goals>
+					   <goal>report</goal>
+					</goals>
+				</execution>
+			</executions>
+			</plugin>
+		<!-- <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+                <execution>
+                    <id>copy-agent</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy</goal>
+                    </goals>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>io.opentelemetry.javaagent</groupId>
+                                <artifactId>opentelemetry-javaagent</artifactId>
+                                <version>1.33.5</version>
+                                <destFileName>opentelemetry-javaagent.jar</destFileName>
+                            </artifactItem> -->
+                           <!-- <artifactItem>
+                                <groupId>io.opentelemetry</groupId>
+                                <artifactId>opentelemetry-exporter-jaeger</artifactId>
+                                <version>1.33.0</version>
+                                <destFileName>opentelemetry-exporter-jaeger.jar</destFileName>
+                            </artifactItem> -->
+                        <!-- </artifactItems>
+                        <outputDirectory>${project.build.directory}</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin> -->
 		</plugins>
 	</build>
 
