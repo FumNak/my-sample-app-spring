@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import ch.qos.logback.access.tomcat.LogbackValve;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "sample")
 public class HelloApplication {
 
     public static void main(String[] args) {
